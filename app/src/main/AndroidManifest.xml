@@ -19,8 +19,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.ljubinkovicd.comicdroid.activity.HeroPagerActivity">
-
+        <activity
+            android:name="com.ljubinkovicd.comicdroid.activity.HeroPagerActivity">
+            <!--android:parentActivityName=".activity.HeroListActivity">-->
         </activity>
     </application>
 

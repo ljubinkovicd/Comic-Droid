@@ -5,10 +5,9 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SearchView
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import com.ljubinkovicd.comicdroid.R
 import com.ljubinkovicd.comicdroid.activity.HeroPagerActivity
@@ -32,12 +31,13 @@ class HeroListFragment : Fragment() {
 
     private var mHeroRecyclerView: RecyclerView? = null
     private var mAdapter: HeroAdapter? = null
-    private var mMarvelHeroes: MutableList<Hero> = mutableListOf()
+//    private var mMarvelHeroes: MutableList<Hero> = mutableListOf()
 
     private lateinit var mMarvelApiClient: MarvelApiClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true) // will explicitly receive a call to onCreateOptionsMenu(...)
 
         heroLab = HeroSingletonHolder.get(activity)
 
@@ -64,12 +64,46 @@ class HeroListFragment : Fragment() {
         requestHeroes()
     }
 
-    private inner class HeroAdapter constructor(val heroes: List<Hero>) : RecyclerView.Adapter<HeroHolder>() {
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater?.inflate(R.menu.fragment_hero_list, menu)
 
-        private var mHeroes: List<Hero> = emptyList()
+        val searchItem: MenuItem = menu!!.findItem(R.id.menu_item_search)
+        val searchView: SearchView = searchItem.actionView as SearchView
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                Log.d(TAG, "QueryTextChange: $newText")
+
+                var searchText = newText?.toLowerCase()
+                var newHeroList: MutableList<Hero> = mutableListOf()
+
+                val heroes = heroLab.getHeroes()
+
+                for (hero: Hero in heroes) {
+                    val heroName = hero.name?.toLowerCase()
+                    if (heroName?.contains(searchText!!) as Boolean) {
+                        newHeroList.add(hero)
+                    }
+                }
+
+                mAdapter?.setFilter(newHeroList)
+
+                return true
+            }
+        })
+    }
+
+    private inner class HeroAdapter constructor(heroes: List<Hero>) : RecyclerView.Adapter<HeroHolder>() {
+
+        private var mHeroes: MutableList<Hero> = mutableListOf()
 
         init {
-            mHeroes = heroes
+            mHeroes = heroes as MutableList<Hero>
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HeroHolder = HeroHolder(parent.inflate(R.layout.list_item_hero))
@@ -77,6 +111,14 @@ class HeroListFragment : Fragment() {
         override fun onBindViewHolder(holder: HeroHolder, position: Int) = holder.bind(mHeroes[position])
 
         override fun getItemCount(): Int = mHeroes.size
+
+        fun setFilter(localHeroList: MutableList<Hero>) {
+
+            mHeroes = mutableListOf()
+            mHeroes.addAll(localHeroList)
+
+            mAdapter!!.notifyDataSetChanged()
+        }
 
     }
 
@@ -112,6 +154,7 @@ class HeroListFragment : Fragment() {
     /** Custom methods */
     private fun setupAdapter() {
         if (isAdded) {
+//            mAdapter = HeroAdapter(mMarvelHeroes)
             val heroes = heroLab.getHeroes()
             mAdapter = HeroAdapter(heroes)
             mHeroRecyclerView?.adapter = mAdapter
@@ -128,6 +171,21 @@ class HeroListFragment : Fragment() {
                 .subscribe({ heroResponse ->
                     Log.d(TAG, "$heroResponse")
                     val description = heroResponse.description ?: "No description for ${heroResponse.name}"
+//                    mMarvelHeroes.add(
+//                            Hero(
+//                                    heroResponse.thumbnail,
+//                                    heroResponse.urls,
+//                                    heroResponse.stories,
+//                                    heroResponse.series,
+//                                    heroResponse.comics,
+//                                    heroResponse.name,
+//                                    description,
+//                                    heroResponse.modified,
+//                                    heroResponse.id,
+//                                    heroResponse.resourceURI,
+//                                    heroResponse.events
+//                            )
+//                    )
                     heroLab.addHero(
                         Hero(
                             heroResponse.thumbnail,

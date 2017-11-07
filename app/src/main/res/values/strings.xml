@@ -1,6 +1,8 @@
 <resources>
-    <string name="app_name">TestAppCleanCode</string>
+    <string name="app_name">ComicDroid</string>
     <string name="api_key">d759cc2fb3ac5e1a546b8448c419cf3c</string>
     <string name="base_url">https://gateway.marvel.com/v1/public/</string>
     <string name="no_description_for_hero_format">No description for \"%s\"</string>
+    <string name="search">Search</string>
+    <string name="clear_search">Clear Search</string>
 </resources>
