@@ -2,7 +2,7 @@ package com.ljubinkovicd.comicdroid.model
 
 import com.google.gson.annotations.SerializedName
 
-data class Data(
+data class HeroData(
 
 	@field:SerializedName("total")
 	val total: Int? = null,
@@ -18,4 +18,7 @@ data class Data(
 
 	@field:SerializedName("results")
 	val results: List<Hero?>? = null
+
+//	@field:SerializedName("results")
+//	val results: List<*>
 )

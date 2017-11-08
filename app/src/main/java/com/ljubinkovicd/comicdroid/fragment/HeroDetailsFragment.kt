@@ -2,6 +2,7 @@ package com.ljubinkovicd.comicdroid.fragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +12,11 @@ import com.ljubinkovicd.comicdroid.helper.inflate
 import com.ljubinkovicd.comicdroid.helper.loadImgFromUrl
 import com.ljubinkovicd.comicdroid.model.Hero
 import com.ljubinkovicd.comicdroid.model.HeroSingletonHolder
+import com.ljubinkovicd.comicdroid.network.MarvelApiClient
 
 import kotlinx.android.synthetic.main.fragment_hero_details.*
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 
 /**
  * Created by ljubinkovicd on 11/6/17.
@@ -20,6 +24,8 @@ import kotlinx.android.synthetic.main.fragment_hero_details.*
 class HeroDetailsFragment : Fragment() {
 
     private val ARG_HERO_ID: String = "hero_id"
+
+    private lateinit var mMarvelApiClient: MarvelApiClient
 
     /** 209 strana objasnjenje zasto treba ovako. */
     fun newInstance(heroId: Int) : HeroDetailsFragment {
@@ -48,12 +54,23 @@ class HeroDetailsFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        mMarvelApiClient = MarvelApiClient()
+
         hero_thumbnail.loadImgFromUrl(mHero.thumbnail?.path + "." + mHero.thumbnail?.extension)
         hero_name.text = mHero.name
         hero_description.text = if (mHero.description != "") { mHero.description } else { String.format(getString(R.string.no_description_for_hero_format), mHero.name) }
         hero_comics_button.text = mHero.comics?.available.toString()
         hero_comics_button.setOnClickListener {
             Toast.makeText(activity, "${mHero.name} is featured in: ${mHero.comics?.available} comics.", Toast.LENGTH_SHORT).show()
+            mMarvelApiClient.getMarvelComics(mHero.id!!, getString(R.string.api_key))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ comicResponse ->
+                        Log.d("STRIP: ", "$comicResponse")
+                    },
+                    { error ->
+                        Log.d("STRIP-ERROR: ", error.printStackTrace().toString())
+                    })
         }
     }
 }
