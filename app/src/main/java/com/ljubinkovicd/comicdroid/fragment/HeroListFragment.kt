@@ -14,7 +14,7 @@ import com.ljubinkovicd.comicdroid.activity.HeroPagerActivity
 import com.ljubinkovicd.comicdroid.helper.inflate
 import com.ljubinkovicd.comicdroid.helper.loadImgFromUrl
 import com.ljubinkovicd.comicdroid.model.Hero
-import com.ljubinkovicd.comicdroid.model.HeroSingletonHolder
+import com.ljubinkovicd.comicdroid.model.singleton.HeroSingletonHolder
 import com.ljubinkovicd.comicdroid.network.MarvelApiClient
 import kotlinx.android.synthetic.main.list_item_hero.view.*
 import rx.android.schedulers.AndroidSchedulers

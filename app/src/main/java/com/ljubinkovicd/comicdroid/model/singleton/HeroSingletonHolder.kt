@@ -1,6 +1,7 @@
-package com.ljubinkovicd.comicdroid.model
+package com.ljubinkovicd.comicdroid.model.singleton
 
 import android.content.Context
+import com.ljubinkovicd.comicdroid.model.Hero
 
 /**
  * Created by ljubinkovicd on 11/5/17.

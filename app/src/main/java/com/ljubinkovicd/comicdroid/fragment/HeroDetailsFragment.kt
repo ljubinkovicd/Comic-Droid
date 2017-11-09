@@ -1,5 +1,6 @@
 package com.ljubinkovicd.comicdroid.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
@@ -8,10 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.ljubinkovicd.comicdroid.R
+import com.ljubinkovicd.comicdroid.activity.ComicListActivity
+import com.ljubinkovicd.comicdroid.activity.HeroListActivity
+import com.ljubinkovicd.comicdroid.activity.HeroPagerActivity
 import com.ljubinkovicd.comicdroid.helper.inflate
 import com.ljubinkovicd.comicdroid.helper.loadImgFromUrl
 import com.ljubinkovicd.comicdroid.model.Hero
-import com.ljubinkovicd.comicdroid.model.HeroSingletonHolder
+import com.ljubinkovicd.comicdroid.model.singleton.HeroSingletonHolder
 import com.ljubinkovicd.comicdroid.network.MarvelApiClient
 
 import kotlinx.android.synthetic.main.fragment_hero_details.*
@@ -62,15 +66,20 @@ class HeroDetailsFragment : Fragment() {
         hero_comics_button.text = mHero.comics?.available.toString()
         hero_comics_button.setOnClickListener {
             Toast.makeText(activity, "${mHero.name} is featured in: ${mHero.comics?.available} comics.", Toast.LENGTH_SHORT).show()
-            mMarvelApiClient.getMarvelComics(mHero.id!!, getString(R.string.api_key))
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ comicResponse ->
-                        Log.d("STRIP: ", "$comicResponse")
-                    },
-                    { error ->
-                        Log.d("STRIP-ERROR: ", error.printStackTrace().toString())
-                    })
+//            mMarvelApiClient.getMarvelComics(mHero.id!!, getString(R.string.api_key))
+//                    .subscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe({ comicResponse ->
+//                        Log.d("STRIP: ", "$comicResponse")
+//                    },
+//                    { error ->
+//                        Log.d("STRIP-ERROR: ", error.printStackTrace().toString())
+//                    })
+
+            Log.d("FROM_HERO_DETAILS:", "Hero ID: ${mHero.id} clicked")
+            val intent = ComicListActivity().newIntent(activity, mHero.id!!)
+
+            startActivity(intent)
         }
     }
 }

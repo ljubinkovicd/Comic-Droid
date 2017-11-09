@@ -100,37 +100,37 @@ class MarvelApiClient {
                 }
                 .flatMap { comicResponse ->
                     Observable.just(
-                            Comic(
-                                    comicResponse?.creators,
-                                    comicResponse?.issueNumber,
-                                    comicResponse?.isbn,
-                                    comicResponse?.description,
-                                    comicResponse?.variants,
-                                    comicResponse?.title,
-                                    comicResponse?.diamondCode,
-                                    comicResponse?.characters,
-                                    comicResponse?.urls,
-                                    comicResponse?.ean,
-                                    comicResponse?.collections,
-                                    comicResponse?.modified,
-                                    comicResponse?.id,
-                                    comicResponse?.prices,
-                                    comicResponse?.events,
-                                    comicResponse?.collectedIssues,
-                                    comicResponse?.pageCount,
-                                    comicResponse?.thumbnail,
-                                    comicResponse?.images,
-                                    comicResponse?.stories,
-                                    comicResponse?.textObjects,
-                                    comicResponse?.digitalId,
-                                    comicResponse?.format,
-                                    comicResponse?.upc,
-                                    comicResponse?.dates,
-                                    comicResponse?.resourceURI,
-                                    comicResponse?.variantDescription,
-                                    comicResponse?.issn,
-                                    comicResponse?.series
-                            )
+                        Comic(
+                            comicResponse?.creators,
+                            comicResponse?.issueNumber,
+                            comicResponse?.isbn,
+                            comicResponse?.description,
+                            comicResponse?.variants,
+                            comicResponse?.title,
+                            comicResponse?.diamondCode,
+                            comicResponse?.characters,
+                            comicResponse?.urls,
+                            comicResponse?.ean,
+                            comicResponse?.collections,
+                            comicResponse?.modified,
+                            comicResponse?.id,
+                            comicResponse?.prices,
+                            comicResponse?.events,
+                            comicResponse?.collectedIssues,
+                            comicResponse?.pageCount,
+                            comicResponse?.thumbnail,
+                            comicResponse?.images,
+                            comicResponse?.stories,
+                            comicResponse?.textObjects,
+                            comicResponse?.digitalId,
+                            comicResponse?.format,
+                            comicResponse?.upc,
+                            comicResponse?.dates,
+                            comicResponse?.resourceURI,
+                            comicResponse?.variantDescription,
+                            comicResponse?.issn,
+                            comicResponse?.series
+                        )
                     )
                 }
     }

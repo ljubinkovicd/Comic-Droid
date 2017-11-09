@@ -23,6 +23,10 @@
             android:name="com.ljubinkovicd.comicdroid.activity.HeroPagerActivity">
             <!--android:parentActivityName=".activity.HeroListActivity">-->
         </activity>
+        <activity
+            android:name=".activity.ComicListActivity">
+
+        </activity>
     </application>
 
 </manifest>

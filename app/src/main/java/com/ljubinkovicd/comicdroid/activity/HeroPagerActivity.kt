@@ -11,7 +11,7 @@ import android.support.v7.app.AppCompatActivity
 import com.ljubinkovicd.comicdroid.R
 import com.ljubinkovicd.comicdroid.fragment.HeroDetailsFragment
 import com.ljubinkovicd.comicdroid.model.Hero
-import com.ljubinkovicd.comicdroid.model.HeroSingletonHolder
+import com.ljubinkovicd.comicdroid.model.singleton.HeroSingletonHolder
 
 import kotlinx.android.synthetic.main.activity_hero_pager.*
 
